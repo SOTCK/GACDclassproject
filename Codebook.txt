@@ -1,0 +1,31 @@
+Codebook
+
+Clay Raine class project: February 22, 2015: Getting and Cleaning Data course
+
+Guide to the Variable Names (i.e. Columns) in My Project
+
+Subject.Number 
+This column is of the integer class.
+Each participant in the study was assigned a number before being assigned to a test or training group. This class project required all subjects to be merged in a single data set, so, all subject numbers appear in the first column of that combined master set.
+
+Activity 
+This column is of the factor class.
+Each participant was measured performing one of six activities. In the merged master set, these activities are represented by the names given by UC Irvine in the original data files:
+•	Walking
+•	Walking_Upstairs
+•	Walking_Downstairs
+•	Sitting
+•	Standing
+•	Laying
+
+Columns 3 through 81 have column names
+provided by the original “features.txt” data file.
+
+All of these variables are of the numeric class.
+
+Each name is a combination of descriptive elements containing each of the following types of information:
+•	Which measurement device was used, the accelerometer (“Acc”) or gyroscope (“gyro”), and the calculation that was performed:
+o	Mean
+o	Standard deviation
+o	Mean frequency  
+•	Further, the names may contain identifiers of a particular motion (e.g. “jerk”) that was being measured.
