@@ -2,8 +2,13 @@
 A script to merge data files in preparation for creating a tidy dataset.
 
 READ ME
-Class Project: Merging and Tidying Data
+
 Clay Raine class project: February 22, 2015: Getting and Cleaning Data course
+
+Please note, this script includes setwd() commands to open files from several different folders, because I wanted to maintain the folders as they were when extracted from the zip file. 
+If you have trouble running the script, please make sure you have added the unzipped files without any changes to the following directory:
+c://courseraGACD/data
+
 Introduction
 The accompany script "run_analysis.R" accomplishes a number of operations on two datasets, which provide measurements of activities performed in a UC Irvine study of wearable computing devices. 
 The script takes the user from raw data to a tidy data set that will return the mean for each participant in the study ("Subject.Name") and each activity performed as part of the study ("Activity"). 
