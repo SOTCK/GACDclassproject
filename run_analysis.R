@@ -1,17 +1,28 @@
-#I'm retaking this class to revisit some topics that I didn't get ample time for the first time around.
+#The following code was written for Windows. 
+
+#I'm retaking this class to revisit some topics that I didn't get ample time for the first go around.
 #For this project, the submission incorporates some refinements, as well as a concession to the fact I still don't get
-#the fourth requirement of the assignment. 
-#If the fourth requirement merely asks for a grouped, sorted collection of the columns containing either a mean or st.dev.,
-#then the tidy dataset produced with the following code should suffice. 
+#the final requirement regarding the tidy dataset. 
+#If the final requirement merely asks for a grouped, sorted collection of the columns containing either a mean or st.dev.,
+#then the tidy dataset produced with the following code should suffice. Specifically, the means and st.dev. calculations will
+#be grouped by each unique combination of Subject# and (meaningful) Activity name. 
 #If, on the other hand, the fourth requirement seeks either of the following, then I'm just going to have to try again
 #after the course concludes:
       # a) For each combination of Subject# and Activity, find the mean and st.dev. across the 79 columns containing a mean or st.dev.
       # b) For each combination of Subject# and Activity, find the mean and st.dev. of each of the 79 columns containing a mean or st.dev.
-#I tried find answers to both a) and b). It was fun, but after trying to base package apply functions, group_by() and
-#summarize() from dplyr, and ddply from plyr(), I'm still getting error messages, mostly concerning objects of unequal length.
-#So, I'm submitting a tidy dataset and have revised the code below to complete step 4, fix some typos that slipped through the 
-#first go around, and to add 
-      
+#I tried to find answers to both a) and b). It was fun, but after trying several base package apply functions, dplyr's group_by() and
+#and summarize(), and ddply from plyr(), I'm still getting error messages, mostly concerning objects of unequal length.
+
+#Also, I love data.table's fread() functionality and put it to good use (i.e. huge time savings) at work, so I tried it with
+#the UCI Human Activity Recognition dataset, instead of read.table(). My code below retains read.table() because it was fast
+#enough and fread() didn't work.
+
+#So, I'm submitting the simpler tidy dataset and have revised the code below to complete step 4, and to fix some typos that slipped 
+#through the first go around.
+
+#Download the data from this link: 
+#Use "If(!file.exists()... etc." to create the appropriate directory, if you are so moved.
+#I'm using c://courseraGACD/data/UCI HAR Dataset/ as my working directory.
 
 # Libraries you might need
 library(reshape2)
@@ -19,11 +30,11 @@ library(dplyr)
 library(tidyr)
 
 #Create necessary data objects
-setwd("c://courseraGACD/data/UCI HAR Dataset/test/")
+setwd("./test/")
 TestX <- read.table("X_test.txt", header=FALSE, sep="")
 TestY <- read.table("y_test.txt", header=FALSE, sep="")
 TestSubject <- read.table("subject_test.txt", header=FALSE, sep="")
-setwd("c://courseraGACD/data/UCI HAR Dataset/train/")
+setwd("./train/")
 TrainSubject <- read.table("subject_train.txt", header=FALSE, sep="")
 TrainY <- read.table("y_train.txt", header=FALSE, sep="")
 TrainX <- read.table("X_train.txt", header=FALSE, sep="")
