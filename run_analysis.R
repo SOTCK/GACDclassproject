@@ -1,21 +1,17 @@
-#Save the comments for your codebook, specifically the recipe of procedures
-
-#The key step is looking at the data files and identifying missing values, quirks and
-#...issues that violate tidy data requirements:
-#   1. Each variable should be in one column
-#   2. Each observation should be in one row
-#   3. Each kind of variable should be represented with one table
-#   4. Multiple tables should be linked by a common column.
-
-#You should also look at each variable and determine whether a mean can be calculated
-#..for that variable.
-
-# You want to turn in: 
-#   1. the raw data, submitted as .txt file with write.table() and row.names=FALSE 
-#   2. a tidy data set
-#   3. a code book describing each variable and its values
-#   4. an explicit and exact recipe for completing steps 1-3
-
+#I'm retaking this class to revisit some topics that I didn't get ample time for the first time around.
+#For this project, the submission incorporates some refinements, as well as a concession to the fact I still don't get
+#the fourth requirement of the assignment. 
+#If the fourth requirement merely asks for a grouped, sorted collection of the columns containing either a mean or st.dev.,
+#then the tidy dataset produced with the following code should suffice. 
+#If, on the other hand, the fourth requirement seeks either of the following, then I'm just going to have to try again
+#after the course concludes:
+      # a) For each combination of Subject# and Activity, find the mean and st.dev. across the 79 columns containing a mean or st.dev.
+      # b) For each combination of Subject# and Activity, find the mean and st.dev. of each of the 79 columns containing a mean or st.dev.
+#I tried find answers to both a) and b). It was fun, but after trying to base package apply functions, group_by() and
+#summarize() from dplyr, and ddply from plyr(), I'm still getting error messages, mostly concerning objects of unequal length.
+#So, I'm submitting a tidy dataset and have revised the code below to complete step 4, fix some typos that slipped through the 
+#first go around, and to add 
+      
 
 # Libraries you might need
 library(reshape2)
@@ -46,7 +42,7 @@ TestY$V1 <- gsub("4","Sitting",TestY$V1)
 TestY$V1 <- gsub("5","Standing",TestY$V1)
 TestY$V1 <- gsub("6","Laying",TestY$V1)
 
-#Rename the values in TestY to the meaningful activity names in Activity_Labels
+#Rename the values in TrainY to the meaningful activity names in Activity_Labels
 TrainY$V1 <- gsub("1","Walking",TrainY$V1)
 TrainY$V1 <- gsub("2","Walking_Upstairs",TrainY$V1)
 TrainY$V1 <- gsub("3","Walking_Downstairs",TrainY$V1)
@@ -90,5 +86,3 @@ master_final <- cbind(addons,tmp)
 #Assignment Requirement #5
 # Create a second, tidy data set, with the mean for each activity and subject:
 # This portion is incomplete.
-by_activities <- master_final[order(master_final$Activity),]
-by_subjects <- master_final[order(master_final$Subject.Number),]
