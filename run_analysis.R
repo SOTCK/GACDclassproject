@@ -99,11 +99,11 @@ tmp <- merged_master[,extract_columns]
 addons <- data.frame(merged_master[,1:2])
 #Making a second instance of merged_master to preserve a copy in case something goes wrong.
 merged_master2 <- cbind(addons,tmp)
-#Combine the values of Subject.Number and Activity into a single vector: subject_activity
-group1 <- group_by(merged_master2,subject_activity = paste(master_final$Subject.Number,master_final$Activity,sep="_")
+#Combine the values of Subject.Number and Activity into a single new column: subject_activity
+merged_master2 <- mutate(merged_master2,subject_activity = paste(master_final$Subject.Number,master_final$Activity,sep="_"))
 #Rearrange the contents of merged_master2 in a final set that has subject_activity as the first column, and only the columns
 #with means or st.dev. calculations:
-master_final <- cbind(group1$subject_activity,merged_master2[,3:81]
+master_final <- cbind(merged_master2[82],merged_master2[,3:81])
 
 #Assignment Requirement #5
 # Create (and write to file) a second, tidy data set, with the mean for each activity and subject:
