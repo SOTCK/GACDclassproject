@@ -120,4 +120,4 @@ master_final <- cbind(merged_master2[82],merged_master2[,3:81])
 # However, it’s a holdover from my attempts to apply the mean and st.dev() function to each column and group by the 
 # subject# and activity. Totally understand if I lose points for that.
 tidy_data <- master_final[order(master_final$subject_activity),]
-write.csv(tidy_human,"./tidy_data.csv",row.names=FALSE)
+write.table(tidy_data,"./tidy_data.txt",row.names=FALSE)
