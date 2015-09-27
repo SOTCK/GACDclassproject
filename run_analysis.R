@@ -13,7 +13,7 @@
 #I tried to find answers to both a) and b). It was fun, but after trying several base package apply functions, dplyr's group_by() and
 #and summarize(), and ddply from plyr(), I'm still getting error messages, mostly concerning objects of unequal length.
 
-#Also, I love data.table's fread() functionality and put it to good use (i.e. huge time savings) at work, so I tried it with
+#Also, I love data.table's fread() functionality and have put it to good use (i.e. huge time savings) at work, so I tried it with
 #the UCI Human Activity Recognition dataset, instead of read.table(). My code below retains read.table() because it was fast
 #enough and fread() didn't work.
 
@@ -38,13 +38,14 @@ setwd("./train/")
 TrainSubject <- read.table("subject_train.txt", header=FALSE, sep="")
 TrainY <- read.table("y_train.txt", header=FALSE, sep="")
 TrainX <- read.table("X_train.txt", header=FALSE, sep="")
-setwd("c://courseraGACD/data/UCI HAR Dataset/")
+setwd("../")
 Features <- read.table("features.txt", header=FALSE, sep="")
 #Prepare Features for use as column names in the merged dataset
 Features <- as.character(Features[,2])
 
-#Assignment Requirement #3
-#Use descriptive names for the activities in the data set
+#Skipping to #3
+#Assignment Requirement #3: Use descriptive names for the activities in the data set
+#The gsub() function in the base package worked best for me the first time, so I'm keeping it.
 #Rename the values in TestY to the meaningful activity names in Activity_Labels
 TestY$V1 <- gsub("1","Walking",TestY$V1)
 TestY$V1 <- gsub("2","Walking_Upstairs",TestY$V1)
@@ -61,7 +62,7 @@ TrainY$V1 <- gsub("4","Sitting",TrainY$V1)
 TrainY$V1 <- gsub("5","Standing",TrainY$V1)
 TrainY$V1 <- gsub("6","Laying",TrainY$V1)
 
-#Assignment requirements #4
+#Assignment requirement #4
 # lable each variable in the data set with appropriate descriptive names
 colnames(TestX) <- Features
 colnames(TrainX) <- Features
@@ -69,6 +70,7 @@ colnames(TrainY) <- "Activity"
 colnames(TestY) <- "Activity"
 
 #Assignment Requirement #1: Merge the test and training data sets
+#First time around I had all sorts of fits with merge(), so sticking with cbind()...
 #Create objects that bind the observations and activity names
 #Adjust the first column name
 TestX_2 <- data.frame(cbind(TestY$Activity,TestX))
@@ -84,6 +86,9 @@ merged_subjects <- rbind(TestSubject,TrainSubject)
 merged_master <- cbind(merged_subjects,merged_master)
 colnames(merged_master)[1] <- "Subject.Number"
 
+#Some cleaning to free up memory:
+rm(merged_subjects,TestX,TestY,TestSubject,TrainX,TrainY,TrainSubject,TestX_2,TrainX_2)
+
 #Assignment Requirement #2: Return only columns for a mean or st.dev. 
 #How? Match column index values that satisfy a logical condition
 #H/T to http://linuxgazette.net/152/misc/lg/searching_for_multiple_strings_patterns_with_grep.html
@@ -92,8 +97,15 @@ extract_columns <- grep("mean()|std()",colnames(merged_master),value=FALSE)
 tmp <- merged_master[,extract_columns]
 #Reattach the Subject.Name and Activity columns from merged_master
 addons <- data.frame(merged_master[,1:2])
-master_final <- cbind(addons,tmp)
+#Making a second instance of merged_master to preserve a copy in case something goes wrong.
+merged_master2 <- cbind(addons,tmp)
+#Combine the values of Subject.Number and Activity into a single vector: subject_activity
+group1 <- group_by(merged_master2,subject_activity = paste(master_final$Subject.Number,master_final$Activity,sep="_")
+#Rearrange the contents of merged_master2 in a final set that has subject_activity as the first column, and only the columns
+#with means or st.dev. calculations:
+master_final <- cbind(group1$subject_activity,merged_master2[,3:81]
 
 #Assignment Requirement #5
-# Create a second, tidy data set, with the mean for each activity and subject:
-# This portion is incomplete.
+# Create (and write to file) a second, tidy data set, with the mean for each activity and subject:
+tidy_data <- master_final[order(master_final$subject_activity),]
+write.csv(tidy_human,"./tidy_data.csv",row.names=FALSE)
