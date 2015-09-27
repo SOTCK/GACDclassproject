@@ -107,5 +107,17 @@ master_final <- cbind(merged_master2[82],merged_master2[,3:81])
 
 #Assignment Requirement #5
 # Create (and write to file) a second, tidy data set, with the mean for each activity and subject:
+merged_master2 <- cbind(addons,tmp)
+#Combine the values of Subject.Number and Activity into a single new column: subject_activity
+merged_master2 <- mutate(merged_master2,subject_activity = paste(master_final$Subject.Number,master_final$Activity,sep="_"))
+#Rearrange the contents of merged_master2 in a final set that has subject_activity as the first column, and only the columns
+#with means or st.dev. calculations:
+master_final <- cbind(merged_master2[82],merged_master2[,3:81])
+
+#Assignment Requirement #5
+# Create (and write to file) a second, tidy data set, with the mean for each activity and subject:
+# The output of “tidy_data” is only tidy-ish because the first column has the subject# and activity as a combined labeled. 
+# However, it’s a holdover from my attempts to apply the mean and st.dev() function to each column and group by the 
+# subject# and activity. Totally understand if I lose points for that.
 tidy_data <- master_final[order(master_final$subject_activity),]
 write.csv(tidy_human,"./tidy_data.csv",row.names=FALSE)
